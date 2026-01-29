@@ -44,3 +44,6 @@ app/release/
 
 # Allow Gradle wrapper jar
 !gradle/wrapper/gradle-wrapper.jar
+
+# Local Android SDK
+android-sdk/
