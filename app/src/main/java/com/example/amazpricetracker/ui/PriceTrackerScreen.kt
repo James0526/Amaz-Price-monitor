@@ -22,7 +22,7 @@ import androidx.compose.material.icons.filled.NotificationsOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -142,7 +142,7 @@ fun PriceTrackerScreen(viewModel: PriceTrackerViewModel = viewModel()) {
                 text = "Items: ${uiState.items.size} / ${PriceRepository.MAX_ITEMS}",
                 style = MaterialTheme.typography.labelMedium
             )
-            HorizontalDivider()
+            Divider()
             if (uiState.items.isEmpty()) {
                 Text(
                     text = "No items yet. Add up to 12 Amazon links.",
