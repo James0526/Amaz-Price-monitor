@@ -66,18 +66,19 @@ fun PriceTrackerScreen(viewModel: PriceTrackerViewModel = viewModel()) {
     val context = LocalContext.current
 
     var urlInput by rememberSaveable { mutableStateOf("") }
-    var pendingNotifyItem by remember { mutableStateOf<PriceItem?>(null) }
+    var pendingNotifyItemId by rememberSaveable { mutableStateOf<Long?>(null) }
 
     val notificationPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        val item = pendingNotifyItem
+        val itemId = pendingNotifyItemId
+        val item = if (itemId != null) uiState.items.find { it.id == itemId } else null
         if (granted && item != null) {
             viewModel.updateNotify(item, true)
         } else if (!granted) {
             viewModel.showMessage("Notifications permission denied.")
         }
-        pendingNotifyItem = null
+        pendingNotifyItemId = null
     }
 
     LaunchedEffect(Unit) {
@@ -165,7 +166,7 @@ fun PriceTrackerScreen(viewModel: PriceTrackerViewModel = viewModel()) {
                                         return@PriceItemCard
                                     }
                                     if (Build.VERSION.SDK_INT >= 33 && !hasNotificationPermission(context)) {
-                                        pendingNotifyItem = item
+                                        pendingNotifyItemId = item.id
                                         notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                                     } else {
                                         viewModel.updateNotify(item, true)
